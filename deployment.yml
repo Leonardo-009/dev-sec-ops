@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devsecops
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devsecops
+  template:
+    metadata:
+      labels:
+        app: devsecops
+    spec:
+      containers:
+      - name: devsecops-container
+        image: awesome_euclid
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: devsecops
+spec:
+  selector:
+    app: devsecops
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: LoadBalancer
