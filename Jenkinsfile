@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    def dockerapp = docker.build("leonardo/conversao-temperatura:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                    dockerapp = docker.build("leonardo/conversao-temperatura:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
                 }
             }
         }
