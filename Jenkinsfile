@@ -2,6 +2,16 @@ pipeline {
     agent any
 
     stages {
+
+        stage("Check docker") {
+            steps {
+                script {
+                sh 'docker --version'
+                sh 'docker compose --version'
+                }
+            }
+        }
+
         stage('Checkout do código') {
             steps {
                 git(url: 'https://github.com/Leonardo-009/conversao-temperatura.git', branch: 'main')
