@@ -14,22 +14,17 @@ pipeline {
 
         stage("Sonarqube Analysis") {
             steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh """mvn sonar:sonar \
-                        -Dsonar.host.url=http://localhost:9000/ \
-                        -Dsonar.login=squ_5bc0d73fdc460a1a68034470aeb6c01597abf528 \
-                        -Dsonar.projectName=Devops-CICD \
-                        -Dsonar.java.binaries=. \
-                        -Dsonar.projectKey=Devops-CICD"""
+                script {
+                    withSonarQubeEnv('sonar-scanner') {
+                        sh """mvn sonar:sonar \
+                            -Dsonar.host.url=http://localhost:9000/ \
+                            -Dsonar.login=squ_5bc0d73fdc460a1a68034470aeb6c01597abf528 \
+                            -Dsonar.projectName=Devops-CICD \
+                            -Dsonar.java.binaries=. \
+                            -Dsonar.projectKey=Devops-CICD"""
+                    }
                 }
             }
         }
-
-        // stage("OWASP Dependency Check"){
-        //     steps{
-        //         dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'DP'
-        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //     }
-        // }
     }
 }
