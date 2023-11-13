@@ -1,8 +1,8 @@
 pipeline {
-    agent any
-    tools{
+    agent
+    any tools{
         jdk 'jdk11'
-        maven 'maven3'
+        nodejs 'node'
     }
     
     environment {
@@ -18,11 +18,15 @@ pipeline {
 
     stage("Sonarqube Analysis") {
         steps {
-            sh "mvn clean package"
-            sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_f26ff7a8d391083c3a78df02e905de046673c9cf  -Dsonar.projectName=DevSecOps-CI_CD \
-            -Dsonar.java.binaries=. \
-            -Dsonar.projectKey=DevSecOps-CI_CD '''
+            script {
+                sh "npm install" // Instale as dependências do projeto JavaScript
+                sh 'npm run test'
+                sh ''' sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
+                -Dsonar.projectName=DevSecOps-CI_CD_JS
+                -Dsonar.javascript.binaries=. \
+                -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
             }
         }
+    }
     }
 }
