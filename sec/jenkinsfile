@@ -1,15 +1,15 @@
 pipeline {
     agent any
-
+    
     tools {
         nodejs 'node'
         jdk 'jdk11'
     }
-
+    
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }
-
+    
     stages {
         stage("Git Checkout") {
             steps {
@@ -19,10 +19,12 @@ pipeline {
 
         stage("Sonarqube Analysis") {
             steps {
-                sonarQubeScanner {
-                    sonarQubeUrl = "http://localhost:9000/"
-                    sonarQubeLogin = "squ_43075f911f17a4795c7ed13133ebd05f0f38679e"
-                    sonarQubePassword = "secret"
+                script {
+                    sh "npm install"
+                    sh '''sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
+                    -Dsonar.projectName=DevSecOps-CI_CD_JS \
+                    -Dsonar.javascript.binaries=. \
+                    -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
                 }
             }
         }
