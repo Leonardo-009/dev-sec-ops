@@ -12,18 +12,17 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Leonardo-009/conversao-temperatura.git'
             }
         }
 
     stage("Sonarqube Analysis") {
         steps {
             sh "mvn clean package"
-            sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI-CD \
+            sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_f26ff7a8d391083c3a78df02e905de046673c9cf  -Dsonar.projectName=DevSecOps-CI_CD \
             -Dsonar.java.binaries=. \
-            -Dsonar.projectKey=DevSecOps-CI_CD '''  // Alterei "/" para "_"
-    }
-}
-
+            -Dsonar.projectKey=DevSecOps-CI_CD '''
+            }
+        }
     }
 }
