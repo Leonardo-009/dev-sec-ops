@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    tools{
+        jdk 'jdk11'
+        maven 'maven3'
+    }
     
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
@@ -8,22 +12,16 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Leonardo-009/conversao-temperatura.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
             }
         }
 
         stage("Sonarqube Analysis") {
             steps {
-                script {
-                    withSonarQubeEnv('sonar-scanner-global') {
-                        sh """mvn sonar:sonar \
-                            -Dsonar.host.url=http://localhost:9000/ \
-                            -Dsonar.login=squ_5bc0d73fdc460a1a68034470aeb6c01597abf528 \
-                            -Dsonar.projectName=Devops-CICD \
-                            -Dsonar.java.binaries=. \
-                            -Dsonar.projectKey=Devops-CICD"""
-                    }
-                }
+                sh "mvn clean package"
+                sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI/CD \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=DevSecOps-CI/CD '''
             }
         }
     }
