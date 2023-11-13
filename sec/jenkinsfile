@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools{
+    tools {
         jdk 'jdk11'
         maven 'maven3'
     }
@@ -16,12 +16,18 @@ pipeline {
             }
         }
 
-        stage("Sonarqube Analysis") {
+        stage("SonarQube Analysis") {
             steps {
-                sh "mvn clean package"
-                sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI/CD \
-                    -Dsonar.java.binaries=. \
-                    -Dsonar.projectKey=DevSecOps-CI/CD '''
+                script {
+                    sh "mvn clean package"
+                    sh """
+                        mvn sonar:sonar \
+                        -Dsonar.host.url=http://localhost:9000/ \
+                        -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6 \
+                        -Dsonar.projectName=DevSecOps-CI/CD \
+                        -Dsonar.projectKey=DevSecOps-CI/CD
+                    """
+                }
             }
         }
     }
