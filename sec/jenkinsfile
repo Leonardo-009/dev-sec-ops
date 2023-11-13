@@ -9,20 +9,11 @@ pipeline {
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }
-
-    stage("Debugging") {
-        steps {
-            script {
-                sh "echo \$PATH"
-            }
-        }
-    }
-
     
     stages {
         stage("Git Checkout") {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Leonardo-009/conversao-temperatura.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Leonardo-009/dev-sec-ops.git'
             }
         }
 
@@ -35,6 +26,14 @@ pipeline {
                         -Dsonar.projectName=DevSecOps-CI_CD_JS \
                         -Dsonar.javascript.binaries=. \
                         -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
+                }
+            }
+        }
+
+        stage("Debugging") {
+            steps {
+                script {
+                    sh "echo \$PATH"
                 }
             }
         }
