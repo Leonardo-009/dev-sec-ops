@@ -4,6 +4,7 @@ pipeline {
     tools {
         nodejs 'node' // Corrigido para 'nodejs'
         jdk 'jdk11'
+        sonarqubeScanner 'sonar-scanner'
     }
     
     environment {
