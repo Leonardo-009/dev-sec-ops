@@ -2,9 +2,8 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'node' // Corrigido para 'nodejs'
+        nodejs 'node'
         jdk 'jdk11'
-        sonarqubeScanner 'sonar-scanner'
     }
     
     environment {
@@ -21,10 +20,12 @@ pipeline {
         stage("Sonarqube Analysis") {
             steps {
                 script {
+                    // Defina a variável de ambiente PATH para incluir o diretório do sonar-scanner
+                    PATH = "${SCANNER_HOME}/bin:${env.PATH}"
                     
-                    sh "npm install" // Instale as dependências do projeto JavaScript
-                    sh ''' sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
-                    -Dsonar.projectName=DevSecOps-CI_CD_JS
+                    sh "npm install"
+                    sh '''sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
+                    -Dsonar.projectName=DevSecOps-CI_CD_JS \
                     -Dsonar.javascript.binaries=. \
                     -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
                 }
