@@ -1,8 +1,9 @@
 pipeline {
-    agent
-    any tools{
-        jdk 'jdk11'
+    agent any
+    
+    tools {
         nodejs 'node'
+        jdk 'jdk11'
     }
     
     environment {
@@ -16,17 +17,17 @@ pipeline {
             }
         }
 
-    stage("Sonarqube Analysis") {
-        steps {
-            script {
-                sh "npm install" // Instale as dependências do projeto JavaScript
-                sh 'npm run test'
-                sh ''' sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
-                -Dsonar.projectName=DevSecOps-CI_CD_JS
-                -Dsonar.javascript.binaries=. \
-                -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
+        stage("Sonarqube Analysis") {
+            steps {
+                script {
+                    sh "npm install" // Instale as dependências do projeto JavaScript
+                    sh 'npm run test'
+                    sh ''' sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
+                    -Dsonar.projectName=DevSecOps-CI_CD_JS
+                    -Dsonar.javascript.binaries=. \
+                    -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
+                }
             }
         }
-    }
     }
 }
