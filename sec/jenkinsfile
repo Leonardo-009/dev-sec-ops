@@ -9,6 +9,15 @@ pipeline {
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }
+
+    stage("Debugging") {
+        steps {
+            script {
+                sh "echo \$PATH"
+            }
+        }
+    }
+
     
     stages {
         stage("Git Checkout") {
