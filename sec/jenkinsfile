@@ -4,7 +4,7 @@ pipeline {
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }
-
+    
     stages {
         stage("Git Checkout") {
             steps {
@@ -15,15 +15,13 @@ pipeline {
         stage("Sonarqube Analysis") {
             steps {
                 script {
-                    withSonarQubeEnv('sonar-scanner-global') {
-                        sh """
-                            mvn sonar:sonar \
+                    withSonarQubeEnv('sonar-scanner') {
+                        sh """mvn sonar:sonar \
                             -Dsonar.host.url=http://localhost:9000/ \
                             -Dsonar.login=squ_5bc0d73fdc460a1a68034470aeb6c01597abf528 \
                             -Dsonar.projectName=Devops-CICD \
                             -Dsonar.java.binaries=. \
-                            -Dsonar.projectKey=Devops-CICD
-                        """
+                            -Dsonar.projectKey=Devops-CICD"""
                     }
                 }
             }
