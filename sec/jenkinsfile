@@ -22,8 +22,15 @@ pipeline {
             sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI_CD \
             -Dsonar.java.binaries=. \
             -Dsonar.projectKey=DevSecOps-CI_CD '''  // Alterei "/" para "_"
-    }
-}
+            }
+        }
+
+    stage("OWASP Dependency Check"){
+        steps{
+            dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'DP'
+            dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
 
     }
 }
