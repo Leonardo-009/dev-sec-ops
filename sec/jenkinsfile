@@ -1,33 +1,27 @@
 pipeline {
     agent any
-    tools {
+    tools{
         jdk 'jdk11'
         maven 'maven3'
     }
     
-    // environment {
-    //     SCANNER_HOME = tool 'sonar-scanner'
-    // }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
     
     stages {
-        // stage("Git Checkout") {
-        //     steps {
-        //         git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
-        //     }
-        // }
-
-        stage("SonarQube Analysis") {
+        stage("Git Checkout") {
             steps {
-                script {
-                    sh "mvn clean package"
-                    sh """ 
-                        mvn sonar:sonar \
-                        -Dsonar.host.url=http://localhost:9000/ \
-                        -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6 \
-                        -Dsonar.projectName=DevSecOps-CI/CD \
-                        -Dsonar.projectKey=DevSecOps-CI/CD
-                    """
-                }
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
+            }
+        }
+
+        stage("Sonarqube Analysis") {
+            steps {
+                sh "mvn clean package"
+                sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI/CD \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=DevSecOps-CI/CD '''
             }
         }
     }
