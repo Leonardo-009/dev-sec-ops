@@ -1,9 +1,8 @@
 pipeline {
     agent any
-    
-    tools {
-        nodejs 'node'
+    tools{
         jdk 'jdk11'
+        maven 'maven3'
     }
     
     environment {
@@ -13,29 +12,18 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Leonardo-009/dev-sec-ops.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
             }
         }
 
-        stage("Sonarqube Analysis") {
-            steps {
-                script {
-                    sh "npm install"
-                    sh '''sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ \
-                        -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
-                        -Dsonar.projectName=DevSecOps-CI_CD_JS \
-                        -Dsonar.javascript.binaries=. \
-                        -Dsonar.projectKey=DevSecOps-CI_CD_JS'''
-                }
-            }
-        }
+    stage("Sonarqube Analysis") {
+        steps {
+            sh "mvn clean package"
+            sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI_CD \
+            -Dsonar.java.binaries=. \
+            -Dsonar.projectKey=DevSecOps-CI_CD '''  // Alterei "/" para "_"
+    }
+}
 
-        stage("Debugging") {
-            steps {
-                script {
-                    sh "echo \$PATH"
-                }
-            }
-        }
     }
 }
