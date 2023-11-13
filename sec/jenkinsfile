@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     sh "mvn clean package"
-                    sh """
+                    sh """ 
                         mvn sonar:sonar \
                         -Dsonar.host.url=http://localhost:9000/ \
                         -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6 \
