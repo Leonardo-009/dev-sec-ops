@@ -16,13 +16,14 @@ pipeline {
             }
         }
 
-        stage("Sonarqube Analysis") {
-            steps {
-                sh "mvn clean package"
-                sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI-CD \
-                    -Dsonar.java.binaries=. \
-                    -Dsonar.projectKey=DevSecOps-CI/CD '''
-            }
-        }
+    stage("Sonarqube Analysis") {
+        steps {
+            sh "mvn clean package"
+            sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI-CD \
+            -Dsonar.java.binaries=. \
+            -Dsonar.projectKey=DevSecOps-CI_CD '''  // Alterei "/" para "_"
+    }
+}
+
     }
 }
