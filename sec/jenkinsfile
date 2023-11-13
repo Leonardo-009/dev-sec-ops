@@ -20,7 +20,7 @@ pipeline {
         stage("Sonarqube Analysis") {
             steps {
                 script {
-                    dir('Breadcrumbsconversao-temperatura/src/package.json')
+                    
                     sh "npm install" // Instale as dependências do projeto JavaScript
                     sh 'npm run test'
                     sh ''' sonar-scanner -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_43075f911f17a4795c7ed13133ebd05f0f38679e \
