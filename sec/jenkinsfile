@@ -16,18 +16,18 @@ pipeline {
             }
         }
 
-    stage("Sonarqube Analysis") {
-        steps {
-            script {
-                def mavenHome = tool 'maven3'
-                def scannerHome = tool 'sonar-scanner'
+    // stage("Sonarqube Analysis") {
+    //     steps {
+    //         script {
+    //             def mavenHome = tool 'maven3'
+    //             def scannerHome = tool 'sonar-scanner'
 
-                withMaven(maven: mavenHome, mavenSettingsConfig: 'your-maven-settings-id') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-            }
-        }
-    }
+    //             withMaven(maven: mavenHome, mavenSettingsConfig: 'your-maven-settings-id') {
+    //                 sh "${scannerHome}/bin/sonar-scanner"
+    //             }
+    //         }
+    //     }
+    // }
 
 
         stage("OWASP Dependency Check") {
