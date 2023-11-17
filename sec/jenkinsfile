@@ -16,6 +16,14 @@ pipeline {
             }
         }
 
+    stages {
+        stage("scm") {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/spring-petclinic/spring-framework-petclinic.git'
+            }
+        }
+    }
+
     // stage("Sonarqube Analysis") {
     //     steps {
     //         script {
@@ -32,9 +40,12 @@ pipeline {
 
         stage("OWASP Dependency Check") {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'OWASP'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'OWASP'
+                // dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
     }
 }
+
+
+git branch: 'main', changelog: false, poll: false, url: 'https://github.com/spring-petclinic/spring-framework-petclinic.git'
