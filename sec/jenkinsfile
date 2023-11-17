@@ -16,14 +16,19 @@ pipeline {
             }
         }
 
-        stage("Sonarqube Analysis") {
-            steps {
-                sh "mvn clean package"
-                sh ''' mvn sonar:sonar -Dsonar.url=http://localhost:9000/ -Dsonar.login=squ_12ad38b673aa79d2566d92154cd5d2d1aa8220d6  -Dsonar.projectName=DevSecOps-CI_CD \
-                -Dsonar.java.binaries=. \
-                -Dsonar.projectKey=DevSecOps-CI_CD '''  // Alterei "/" para "_"
+    stage("Sonarqube Analysis") {
+        steps {
+            script {
+                def mavenHome = tool 'maven3'
+                def scannerHome = tool 'sonar-scanner'
+
+                withMaven(maven: mavenHome, mavenSettingsConfig: 'your-maven-settings-id') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
+    }
+
 
         stage("OWASP Dependency Check") {
             steps {
